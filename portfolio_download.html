@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mohamed Hesham Zaky — Data Science</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0A0F1E;
+    --bg2:       #111827;
+    --bg3:       #1a2235;
+    --cyan:      #00D4FF;
+    --cyan-dim:  rgba(0,212,255,0.12);
+    --cyan-mid:  rgba(0,212,255,0.25);
+    --text:      #E8EDF5;
+    --muted:     #7B8BAA;
+    --border:    rgba(255,255,255,0.07);
+    --white:     #ffffff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 5vw;
+    height: 60px;
+    background: rgba(10,15,30,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-size: 13px; font-weight: 600; letter-spacing: 0.06em;
+    color: var(--cyan); font-family: 'JetBrains Mono', monospace;
+  }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a {
+    color: var(--muted); font-size: 13px; font-weight: 500;
+    text-decoration: none; letter-spacing: 0.03em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+
+  /* ── SECTIONS ── */
+  section { padding: 100px 5vw; }
+  .container { max-width: 1000px; margin: 0 auto; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding-top: 60px;
+    background:
+      radial-gradient(ellipse 60% 50% at 80% 40%, rgba(0,212,255,0.06) 0%, transparent 70%),
+      var(--bg);
+    position: relative; overflow: hidden;
+  }
+  #hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+  }
+  .hero-inner { position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; width: 100%; }
+  .hero-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; font-weight: 500;
+    color: var(--cyan);
+    background: var(--cyan-dim);
+    border: 1px solid rgba(0,212,255,0.3);
+    padding: 5px 14px; border-radius: 4px;
+    margin-bottom: 28px; letter-spacing: 0.05em;
+  }
+  .hero-name {
+    font-size: clamp(42px, 7vw, 84px);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .hero-title {
+    font-size: clamp(18px, 3vw, 26px);
+    font-weight: 300;
+    color: var(--cyan);
+    letter-spacing: 0.08em;
+    margin-bottom: 28px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .hero-summary {
+    max-width: 580px;
+    font-size: 16px;
+    color: var(--muted);
+    line-height: 1.75;
+    margin-bottom: 40px;
+  }
+  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 13px 28px;
+    background: var(--cyan);
+    color: var(--bg);
+    font-size: 14px; font-weight: 700;
+    border-radius: 6px; text-decoration: none;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn-ghost {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 13px 28px;
+    border: 1px solid rgba(0,212,255,0.4);
+    color: var(--cyan);
+    font-size: 14px; font-weight: 600;
+    border-radius: 6px; text-decoration: none;
+    transition: background 0.2s;
+  }
+  .btn-ghost:hover { background: var(--cyan-dim); }
+
+  .hero-meta {
+    margin-top: 56px;
+    display: flex; gap: 36px; flex-wrap: wrap;
+  }
+  .meta-item {
+    display: flex; align-items: center; gap: 9px;
+    font-size: 13px; color: var(--muted);
+  }
+  .meta-item svg { opacity: 0.5; flex-shrink: 0; }
+
+  /* ── SECTION HEADER ── */
+  .sec-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 500;
+    color: var(--cyan); letter-spacing: 0.1em;
+    margin-bottom: 12px;
+  }
+  .sec-title {
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    margin-bottom: 48px;
+    line-height: 1.15;
+  }
+  .sec-title span { color: var(--cyan); }
+
+  /* ── SKILLS ── */
+  #skills { background: var(--bg2); }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .skill-group {
+    background: var(--bg2);
+    padding: 32px;
+  }
+  .skill-group-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+    color: var(--cyan); margin-bottom: 18px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .skill-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; font-weight: 400;
+    padding: 5px 12px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .skill-tag:hover { border-color: var(--cyan); color: var(--cyan); }
+
+  /* ── PROJECT ── */
+  #project { background: var(--bg); }
+  .project-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .project-header {
+    padding: 40px 40px 0;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 32px;
+  }
+  .project-badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    padding: 4px 10px; border-radius: 3px;
+    background: rgba(0,212,255,0.15);
+    color: var(--cyan);
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+  }
+  .project-name {
+    font-size: 26px; font-weight: 800;
+    color: var(--white); letter-spacing: -0.02em;
+    margin-bottom: 8px; line-height: 1.2;
+  }
+  .project-sub {
+    font-size: 14px; color: var(--muted); margin-bottom: 20px;
+  }
+  .project-stack { display: flex; gap: 8px; flex-wrap: wrap; }
+  .stack-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; padding: 3px 10px;
+    border: 1px solid rgba(0,212,255,0.25);
+    border-radius: 20px; color: var(--cyan);
+  }
+  .project-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  .project-features {
+    padding: 36px 40px;
+    border-right: 1px solid var(--border);
+  }
+  .project-features h4 {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+    color: var(--muted); margin-bottom: 20px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .feature-item {
+    display: flex; gap: 14px;
+    margin-bottom: 22px;
+    align-items: flex-start;
+  }
+  .feature-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--cyan); flex-shrink: 0; margin-top: 7px;
+  }
+  .feature-text { font-size: 14px; color: var(--muted); line-height: 1.65; }
+  .feature-text strong { color: var(--text); font-weight: 600; }
+  .project-impact {
+    padding: 36px 40px;
+  }
+  .project-impact h4 {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+    color: var(--muted); margin-bottom: 20px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .impact-stat {
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .impact-stat:last-child { border-bottom: none; margin-bottom: 0; }
+  .impact-label { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .impact-value { font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.4; }
+  .project-footer {
+    padding: 24px 40px;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .github-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; color: var(--cyan);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .github-link:hover { opacity: 0.7; }
+
+  /* ── CERTS ── */
+  #certs { background: var(--bg2); }
+  .certs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  .cert-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 28px;
+    text-decoration: none;
+    display: block;
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .cert-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--cyan), transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .cert-card:hover { border-color: rgba(0,212,255,0.3); transform: translateY(-3px); }
+  .cert-card:hover::before { opacity: 1; }
+  .cert-issuer {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+    color: var(--cyan); margin-bottom: 12px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .cert-name {
+    font-size: 17px; font-weight: 700;
+    color: var(--white); margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .cert-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .cert-arrow {
+    position: absolute; bottom: 24px; right: 24px;
+    color: var(--cyan); opacity: 0.4;
+    font-size: 18px;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .cert-card:hover .cert-arrow { opacity: 1; transform: translate(3px, -3px); }
+
+  /* ── EDUCATION ── */
+  #education { background: var(--bg); }
+  .edu-block {
+    display: flex; gap: 32px; align-items: flex-start;
+    padding: 32px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+  .edu-year {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--cyan);
+    flex-shrink: 0; padding-top: 4px;
+    min-width: 80px;
+  }
+  .edu-details h3 {
+    font-size: 18px; font-weight: 700; color: var(--white);
+    margin-bottom: 4px;
+  }
+  .edu-details p { font-size: 14px; color: var(--muted); }
+
+  /* ── CONTACT ── */
+  #contact {
+    background: var(--bg2);
+    text-align: center;
+  }
+  #contact .sec-title { margin-bottom: 16px; }
+  #contact p { color: var(--muted); margin-bottom: 36px; font-size: 15px; }
+  .contact-links {
+    display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center; padding: 28px;
+    border-top: 1px solid var(--border);
+    font-size: 12px; color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    .project-body { grid-template-columns: 1fr; }
+    .project-features { border-right: none; border-bottom: 1px solid var(--border); }
+    .nav-links { display: none; }
+    .hero-meta { gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">mhz.dev</span>
+  <div class="nav-links">
+    <a href="#skills">Skills</a>
+    <a href="#project">Project</a>
+    <a href="#certs">Certificates</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Available for internships · Egypt</div>
+    <h1 class="hero-name">Mohamed<br>Hesham Zaky</h1>
+    <p class="hero-title">Data Science Specialist</p>
+    <p class="hero-summary">
+      Computer Science student specializing in Data Science. I turn raw, messy datasets into structured insights — building analytics pipelines, engineering features, and designing dashboards that make patterns visible.
+    </p>
+    <div class="hero-actions">
+      <a href="https://github.com/MohamedHesham12/sahl-delivery-analytics" target="_blank" class="btn-primary">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        View GitHub
+      </a>
+      <a href="https://www.linkedin.com/in/mohamed-hesham-101845357" target="_blank" class="btn-ghost">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+    </div>
+    <div class="hero-meta">
+      <div class="meta-item">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Cairo, Egypt
+      </div>
+      <div class="meta-item">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Mohamedgamer336@gmail.com
+      </div>
+      <div class="meta-item">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        github.com/MohamedHesham12
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <p class="sec-label">technical skills</p>
+    <h2 class="sec-title">What I work with</h2>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <div class="skill-group-label">Languages & Core</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">SQL</span>
+          <span class="skill-tag">Data Structures</span>
+          <span class="skill-tag">Algorithms</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-label">Data Engineering & Analytics</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Pandas</span>
+          <span class="skill-tag">NumPy</span>
+          <span class="skill-tag">EDA</span>
+          <span class="skill-tag">Feature Engineering</span>
+          <span class="skill-tag">Data Preprocessing</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-label">Visualization & Databases</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Matplotlib</span>
+          <span class="skill-tag">Seaborn</span>
+          <span class="skill-tag">MySQL</span>
+          <span class="skill-tag">Relational DB Design</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-label">Tools & Environment</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Jupyter</span>
+          <span class="skill-tag">VS Code</span>
+          <span class="skill-tag">Git</span>
+          <span class="skill-tag">GitHub</span>
+          <span class="skill-tag">Generative AI</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECT -->
+<section id="project">
+  <div class="container">
+    <p class="sec-label">featured project</p>
+    <h2 class="sec-title">Built from <span>real data</span></h2>
+    <div class="project-card">
+      <div class="project-header">
+        <div class="project-badge">Operational Analytics</div>
+        <h3 class="project-name">Sahl Delivery — Performance Dashboard</h3>
+        <p class="project-sub">End-to-end analytics pipeline analyzing delivery bottlenecks, courier constraints, and their impact on customer retention</p>
+        <div class="project-stack">
+          <span class="stack-pill">Python</span>
+          <span class="stack-pill">Pandas</span>
+          <span class="stack-pill">NumPy</span>
+          <span class="stack-pill">Matplotlib</span>
+          <span class="stack-pill">Seaborn</span>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-features">
+          <h4>what was built</h4>
+          <div class="feature-item">
+            <div class="feature-dot"></div>
+            <p class="feature-text"><strong>Advanced Preprocessing</strong> — cleaned messy text-based numerical data, standardized inconsistent zone names, resolved mixed date-time formats, and filtered physically impossible records</p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-dot"></div>
+            <p class="feature-text"><strong>Feature Engineering</strong> — engineered delivery delay metrics and peak-hour flags; used median imputation while preserving unrated orders for unbiased evaluation</p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-dot"></div>
+            <p class="feature-text"><strong>6-Panel Dashboard</strong> — comprehensive visualization surfacing courier capacity limits, kitchen prep bottlenecks, and customer reorder drop patterns</p>
+          </div>
+        </div>
+        <div class="project-impact">
+          <h4>key findings</h4>
+          <div class="impact-stat">
+            <div class="impact-label">Primary bottleneck identified</div>
+            <div class="impact-value">Courier vehicle constraints directly correlated with customer retention drop</div>
+          </div>
+          <div class="impact-stat">
+            <div class="impact-label">Data quality improvement</div>
+            <div class="impact-value">Standardized inconsistent zone naming across full dataset for reliable grouping</div>
+          </div>
+          <div class="impact-stat">
+            <div class="impact-label">Insight delivery</div>
+            <div class="impact-value">6-panel visual dashboard making operational patterns immediately actionable</div>
+          </div>
+        </div>
+      </div>
+      <div class="project-footer">
+        <a href="https://github.com/MohamedHesham12/sahl-delivery-analytics" target="_blank" class="github-link">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          github.com/MohamedHesham12/sahl-delivery-analytics
+        </a>
+        <span style="font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;">Open source</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTS -->
+<section id="certs">
+  <div class="container">
+    <p class="sec-label">certifications</p>
+    <h2 class="sec-title">Credentials</h2>
+    <div class="certs-grid">
+      <a href="https://www.coursera.org/account/accomplishments/specialization/ITWD35WQ5W3E" target="_blank" class="cert-card">
+        <div class="cert-issuer">Google · Coursera</div>
+        <div class="cert-name">Google AI Essentials</div>
+        <div class="cert-desc">Covers core AI concepts, practical applications of AI tools, prompt engineering, and responsible use of AI in professional workflows.</div>
+        <span class="cert-arrow">↗</span>
+      </a>
+      <a href="https://www.linkedin.com/learning/certificates/992e29adb1ebd837183e47eed0d4d922babe575e7f26767de2ea16066453382f" target="_blank" class="cert-card">
+        <div class="cert-issuer">Microsoft · LinkedIn Learning</div>
+        <div class="cert-name">Career Essentials in Generative AI</div>
+        <div class="cert-desc">Covers Generative AI fundamentals, Large Language Models, prompt engineering, and responsible AI practices.</div>
+        <span class="cert-arrow">↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <p class="sec-label">get in touch</p>
+    <h2 class="sec-title">Open to <span>opportunities</span></h2>
+    <p>Looking for data science internships and junior data analyst roles.</p>
+    <div class="contact-links">
+      <a href="mailto:Mohamedgamer336@gmail.com" class="btn-primary">Send Email</a>
+      <a href="https://www.linkedin.com/in/mohamed-hesham-101845357" target="_blank" class="btn-ghost">LinkedIn</a>
+      <a href="https://github.com/MohamedHesham12" target="_blank" class="btn-ghost">GitHub</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Mohamed Hesham Zaky &nbsp;·&nbsp; Data Science &nbsp;·&nbsp; Egypt &nbsp;·&nbsp; 2025
+</footer>
+
+</body>
+</html>
